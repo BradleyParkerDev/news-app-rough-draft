@@ -1,0 +1,7 @@
+.buttonContainerDiv{
+    display: flex;
+    justify-content: space-evenly;
+    height: auto;
+    width: auto;
+
+}
