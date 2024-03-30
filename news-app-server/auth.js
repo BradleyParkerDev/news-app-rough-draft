@@ -21,8 +21,8 @@ const validatePassword = async (password, hashedPassword) => {
 //Token Functions
 const generateUserTokens = (userData) => {
     // const accessTokenExp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 minutes
-    const accessTokenExp = Math.floor(Date.now() / 1000) + 60; // 1 minute
-    // const accessTokenExp = Math.floor(Date.now() / 1000) + 15; // 15 seconds
+    // const accessTokenExp = Math.floor(Date.now() / 1000) + 60; // 1 minute
+    const accessTokenExp = Math.floor(Date.now() / 1000) + 15; // 15 seconds
 
 
     const refreshTokenExp = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;
@@ -58,7 +58,7 @@ const verifyUserToken = (req, res, next) => {
             try {
                 const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
                 req.decoded = decoded;
-                console.log('Token verified with ACCESS_TOKEN_SECRET_KEY');
+                // console.log('Token verified with ACCESS_TOKEN_SECRET_KEY');
                 next();
                 return; // Exit function if verification successful
             } catch (accessTokenError) {
@@ -69,7 +69,7 @@ const verifyUserToken = (req, res, next) => {
             try {
                 const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
                 req.decoded = decoded;
-                console.log('Token verified with REFRESH_TOKEN_SECRET_KEY');
+                // console.log('Token verified with REFRESH_TOKEN_SECRET_KEY');
                 next();
                 return; // Exit function if verification successful
             } catch (refreshTokenError) {
