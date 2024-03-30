@@ -1,6 +1,6 @@
 // UserContext.js
 import React, { createContext, useState, useReducer,useContext, useEffect} from 'react';
-import { fetchUserData } from '../lib';
+import { fetchUserData, fetchAccessToken} from '../lib';
 import { AuthContext } from './AuthContext';
 import axios from 'axios';
 const urlEndPoint = process.env.REACT_APP_BASE_URL
@@ -30,12 +30,8 @@ const initalState = {
 
 const userReducer = (state, action) => {
     switch(action.type) {
-        // case 'FETCH_USER_DATA': 
-        //     fetchUserData()
-        //     return 
-        // case 'UPDATE_USER':
-        //     updateUser(action.payload)
-        //     return state;       
+        case 'FETCH_USER_DATA': 
+            return action.payload      
         case 'RESET_USER':
             return initalState;
         default:
@@ -47,33 +43,41 @@ const userReducer = (state, action) => {
 
 
 
-
-// const updateUser = async (accessToken,userData) =>{
-//     try {
-//         const response = await axios.put(`${urlEndPoint}/users/update-user`, userData)
-//         console.log('Update: Success')            
-//     } catch (error) {
-//         console.error('Error updating user:', error);
-//     }
-
-
-// }
-
-
-
 export const UserProvider = ({ children }) => {
     const {state: authState, dispatch:authDispatch} = useContext(AuthContext)
     const {isAuth, accessToken} = authState;
     const [state,dispatch] = useReducer(userReducer,initalState)
 
-    const setUserData = async (userData) =>{
 
-        dispatch({type: 'SET_USER_DATA', payload: userData})
-        console.log('User data set!')
-    }  
+    useEffect(() => {
+        // const setUserData = async () => {
+        //     try {
+        //         // Fetch access token
+        //         const token = await fetchAccessToken();
+                
+        //         // Now that we have the access token, fetch user data
+        //         const user = await fetchUserData();
+        //         console.log(user)
+    
+        //         // Update the user context with the fetched user data
+        //         if (user) {
+        //             dispatch({ type: 'FETCH_USER_DATA', payload: user });
+        //         }
+        //     } catch (error) {
+        //         console.error('Error setting user data:', error);
+        //         // You might want to handle errors here
+        //     }
+        // };
+    
+        // // Call the function to set user data
+        // setUserData();
+
+        console.log(state)
+    }, []);
+    
 
     return (
-        <UserContext.Provider value={{state, dispatch, setUserData }}>
+        <UserContext.Provider value={{state, dispatch }}>
         {children}
         </UserContext.Provider>
     );

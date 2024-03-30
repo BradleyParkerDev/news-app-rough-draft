@@ -1,35 +1,26 @@
-// AuthContext.js
-import React, { createContext, useReducer,useEffect } from 'react';
-import { authCheck } from '../lib';
-import axios from 'axios';
-const urlEndPoint = process.env.REACT_APP_BASE_URL;
+import React, { createContext, useReducer, useEffect, useContext } from 'react';
+import { fetchAccessToken , loginUser, logoutUser} from '../lib';
+import { UserContext } from './UserContext';
 
 export const AuthContext = createContext();
 
 const initialState = {
     isAuth: false,
-    accessToken: null,
-    authLoading: true, 
+    authLoading: true,
 };
 
-
-const authReducer = async (state, action) => {
+const authReducer = (state, action) => {
     switch (action.type) {
-        case 'LOGIN_SUCCESS':
+        case 'SET_AUTHENTICATED':
             return {
                 ...state,
-                isAuth: true,
-                accessToken: action.payload.accessToken,
+                isAuth: action.payload,
                 authLoading: false,
             };
-        case 'AUTHENTICATE':
-            const accessToken = await authCheck()
-            console.log(accessToken)
+        case 'SET_ACCESS_TOKEN':
             return {
                 ...state,
-                isAuth: true,
-                accessToken: accessToken,
-                authLoading: false,
+                accessToken: action.payload,
             };
         default:
             return state;

@@ -14,18 +14,16 @@ const UserPage = (props) => {
         logoutUser(); // Call the logout function
     };
 
-    const handleFetchUserData = () => {
-        fetchUserData(); // Call the function to fetch user data
+    const handleFetchUserData = async() => {
+        const userData = await fetchUserData(); // Call the function to fetch user data
+        console.log(userData)
+        userDispatch({type:'FETCH_USER_DATA', payload: userData})
     };
 
     const handleRefreshAccessToken = () => {
         fetchAccessToken(); // Call the function to refresh access token
     };
-    useEffect(() => {
-        console.log('auth state changed.');
-        authDispatch({type:'AUTHENTICATE'});
-        userDispatch({type:'FETCH_USER_DATA'});
-    }, [isAuth]);
+
     
     return (
         <div>

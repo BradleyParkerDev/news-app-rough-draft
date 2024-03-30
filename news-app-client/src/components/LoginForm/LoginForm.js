@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import useForm from "../../hooks/useForm";
 import { AuthContext } from "../../context/AuthContext";
+import {UserContext} from "../../context/UserContext"
 import { loginUser } from "../../lib/";
 import styles from './LoginForm.module.css'
-const LoginForm = () =>{
-    const { state , dispatch} = useContext(AuthContext);
 
-    // const {loginUser} = useContext(UserContext)
+const LoginForm = () =>{
+    const { dispatch: userDispatch} = useContext(UserContext);
+    const { dispatch: authDispatch} = useContext(AuthContext);
+
     const {formData, handleChange, resetForm} = useForm({
         emailAddress:'',
         password:''
@@ -16,19 +18,13 @@ const LoginForm = () =>{
         e.preventDefault();
 
         try {
-            loginUser(formData, state, dispatch)
-            console.log('LoginForm data submitted: ', formData)
+            loginUser(formData, userDispatch , authDispatch); // Corrected userDispatch argument
         } catch (error) {
-            
+            console.error('Error logging in user:', error);
         }
 
         resetForm();
-
     }
-
-
-
-
 
     return(
         <div className={styles.container}>
@@ -51,7 +47,6 @@ const LoginForm = () =>{
             </form>
         </div>
     );
-
 }
 
 export default LoginForm;

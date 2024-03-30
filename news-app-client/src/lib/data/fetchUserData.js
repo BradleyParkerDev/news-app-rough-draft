@@ -10,7 +10,8 @@ export const fetchUserData = async () => {
         console.log('fetching user data...');
         const response = await axios.get(`${urlEndPoint}/users/get-user`)
         const user = response.data.userData;
-        console.log(user) 
+        console.log(user)
+        return user
 
 
     } catch (error) {
