@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NewsWeatherContext } from '../../context/NewsWeatherContext';
 import { UserContext } from '../../context/UserContext';
 
@@ -8,7 +8,7 @@ import { UserContext } from '../../context/UserContext';
 
 const HomePage = (props) =>{
     const { state: newsWeatherState } = useContext(NewsWeatherContext);
-    const { state: user, dispatch: userDispatch } = useContext(UserContext);
+    const { state: user, dispatch: userDispatch, setUserData } = useContext(UserContext);
     // Destructure news and weather from state
     const { news, weather, loadingWeather, loadingNews } = newsWeatherState;
     

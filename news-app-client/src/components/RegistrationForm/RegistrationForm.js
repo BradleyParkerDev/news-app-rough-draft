@@ -3,8 +3,8 @@ import useForm from "../../hooks/useForm";
 import { UserContext } from "../../context/UserContext";
 import React from "react";
 import styles from './RegistrationForm.module.css'
+import { registerUser } from "../../lib";
 const RegistrationForm = (props) =>{
-    const { registerUser } = useContext(UserContext);
 
     const {formData, handleChange, resetForm} = useForm({
         firstName: '',

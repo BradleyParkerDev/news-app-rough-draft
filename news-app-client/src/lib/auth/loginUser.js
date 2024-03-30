@@ -4,7 +4,7 @@ import { fetchUserData } from "../data/fetchUserData";
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
 
 export const loginUser = async (userData, state, dispatch) => {
-    console.log('logging in user...')
+    console.log('logging user in...')
 
     try {
         const response = await axios.post(`${urlEndPoint}/users/login`, {

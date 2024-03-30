@@ -13,7 +13,7 @@ const initialState = {
 };
 
 
-const authReducer = (state, action) => {
+const authReducer = async (state, action) => {
     switch (action.type) {
         case 'LOGIN_SUCCESS':
             return {
@@ -22,12 +22,15 @@ const authReducer = (state, action) => {
                 accessToken: action.payload.accessToken,
                 authLoading: false,
             };
-        case 'SET_CHECK':
-            return{
+        case 'AUTHENTICATE':
+            const accessToken = await authCheck()
+            console.log(accessToken)
+            return {
                 ...state,
-                expireTime: action.payload.expireTime
-
-            }
+                isAuth: true,
+                accessToken: accessToken,
+                authLoading: false,
+            };
         default:
             return state;
     }
@@ -35,17 +38,6 @@ const authReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
-
-
-    useEffect(()=>{
-
-        console.log(state.accessToken)
-        authCheck(state,dispatch)
-
-
-    },[state])
-
-
 
 
     return (

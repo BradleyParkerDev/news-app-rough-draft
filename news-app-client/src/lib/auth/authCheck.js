@@ -1,10 +1,13 @@
-import { fetchAccessToken } from "./fetchAccessToken"
+import { fetchAccessToken } from "./fetchAccessToken";
 
-export const authCheck = (state,dispatch) => {
-    // const {isAuth, accessToken, authLoading} = state;
-    // const {dispatch} = dispatch;
+export const authCheck = async () => {
+    try {
+        console.log('Running authCheck...');
+        const accessToken = await fetchAccessToken();
+        return accessToken
+    } catch (error) {
+        console.error('Error checking authentication:', error);
+        return null
 
-    // console.log(`autCheck: ${accessToken}`)
-
-
-}
+    }
+};
