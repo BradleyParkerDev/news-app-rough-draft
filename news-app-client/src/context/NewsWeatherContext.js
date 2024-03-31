@@ -31,7 +31,7 @@ export const NewsWeatherProvider = ({ children }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=coding&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`);
+                const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=donald%20trump&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`);
                 dispatch({ type: 'FETCH_NEWS', payload: newsResponse.data.articles });
             } catch (error) {
                 console.error('Error fetching news:', error);

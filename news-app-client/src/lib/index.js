@@ -3,6 +3,7 @@
 // Import functions from individual files
 import { authCheck } from './auth/authCheck';
 import { fetchAccessToken } from './auth/fetchAccessToken';
+import { checkRefreshToken } from './auth/checkRefreshToken';
 import { loginUser } from './auth/loginUser';
 import { logoutUser } from './auth/logoutUser';
 import { registerUser } from './auth/registerUser';
@@ -15,6 +16,7 @@ import { fetchNews } from './data/fetchNews';
 export {
   authCheck,
   fetchAccessToken,
+  checkRefreshToken,
   loginUser,
   logoutUser,
   registerUser,

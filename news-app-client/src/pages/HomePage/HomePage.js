@@ -39,8 +39,8 @@ const HomePage = (props) =>{
             )}
           </div>
         );
-      }
-
+    }
+	console.log(news)
     return (
         <div>
             <Modal/>
