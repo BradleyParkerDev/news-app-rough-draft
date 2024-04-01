@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from 'axios';
-
+import { fetchWeather } from "../lib/data/fetchWeather";
 export const NewsWeatherContext = createContext();
 
 const initialState = {
@@ -38,7 +38,7 @@ export const NewsWeatherProvider = ({ children }) => {
             }
 
             try {
-                const weatherResponse = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${state.location}`);
+                const weatherResponse = await fetchWeather(state.location);
                 dispatch({ type: 'FETCH_WEATHER', payload: weatherResponse.data });
             } catch (error) {
                 console.error('Error fetching weather:', error);

@@ -10,6 +10,7 @@ import { registerUser } from './auth/registerUser';
 import { setHeaderToken } from './auth/setHeaderToken';
 import { fetchUserData } from './data/fetchUserData';
 import { fetchNews } from './data/fetchNews';
+import { fetchWeather} from './data/fetchWeather';
 
 
 // Export the functions
@@ -22,5 +23,6 @@ export {
   registerUser,
   setHeaderToken,
   fetchUserData,
-  fetchNews
+  fetchNews,
+  fetchWeather
 };
