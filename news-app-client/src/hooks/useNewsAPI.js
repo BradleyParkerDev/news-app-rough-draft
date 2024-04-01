@@ -1,5 +1,5 @@
 import { useState, useReducer } from "react";
-import { fetchNews } from "../lib";
+import { fetchNews,  } from "../lib";
 
 
 // this is the hypothetical requestObject
@@ -13,21 +13,26 @@ import { fetchNews } from "../lib";
 //     pageSize: 20,
 //     page: 1
 //   }
-  
 
 
-const useNewsAPI = (requestObject) =>{
+
+
+const categories  = ['business','entertainment','general','health','science','sports','technology']
+
+const useNewsAPI = async (input) =>{
+
     const [everything,setEverything] = useState('https://newsapi.org/v2/everything?')
     const [topHeadlines,setTopHeadlines] = useState('https://newsapi.org/v2/top-headlines?')
-    const [query,setQuery] = useState(`q=${requestObject.query}`)
 
+    // if (input)
+    // const categoriesArr = arr.map((item)=>{
+    //     let category = newsObject();
+    //     category.name = item;
+    //     category.searchPreferences.category = item;
+    //     category.country = 'us'
+    // })
 
-    // let url = everything;
-
-    // const news = fetchNews(url)
-
-
-    // 'https://newsapi.org/v2/everything?q=trump&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`
+    fetchNews()
 
 }
 

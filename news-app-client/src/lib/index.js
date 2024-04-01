@@ -1,6 +1,6 @@
 // index.js
 
-import authCheck from './auth/authCheck';
+import 	authCheck from './auth/authCheck';
 import  fetchAccessToken  from './auth/fetchAccessToken';
 import  checkRefreshToken  from './auth/checkRefreshToken';
 import  loginUser  from './auth/loginUser';
@@ -11,8 +11,9 @@ import  fetchUserData  from './data/fetchUserData';
 import  fetchNews  from './data/fetchNews';
 import  fetchWeather from './data/fetchWeather';
 import  setLocalStorageData from './data/setLocalStorageData';
-import getLocalStorageData from './data/getLocalStorageData';
-
+import 	getLocalStorageData from './data/getLocalStorageData';
+import createNewsObject from './data/createNewsObject';
+import uploadImage from './data/uploadImage';
 
 // Export the functions
 export {
@@ -27,5 +28,8 @@ export {
 	fetchNews,
 	fetchWeather,
 	setLocalStorageData,
-	getLocalStorageData
+	getLocalStorageData,
+	createNewsObject,
+	uploadImage
+	
 };

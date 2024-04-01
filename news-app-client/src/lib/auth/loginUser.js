@@ -30,7 +30,6 @@ const loginUser = async (userData, userDispatch, authDispatch) => {
         if (accessToken) {
             setHeaderToken(accessToken);
             authDispatch({ type: 'SET_AUTHENTICATED', payload: true });
-            authDispatch({ type: 'SET_ACCESS_TOKEN', payload: accessToken });
         } else {
             authDispatch({ type: 'SET_AUTHENTICATED', payload: false });
         }

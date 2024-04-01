@@ -6,19 +6,13 @@ const getLocalStorageData = (dataType) =>{
         return userData
     }
 
-    if(dataType==='news'){
-        const news = localStorage.getItem('news');
-        const newsData = JSON.parse(news);
-        console.log(newsData); 
-        return newsData
+    if(dataType==='newsWeather'){
+        const newsWeather = localStorage.getItem('newsWeather');
+        const newsWeatherData = JSON.parse(newsWeather);
+        console.log(newsWeatherData); 
+        return newsWeatherData
     }
 
-    if(dataType==='weather'){
-        const weather = localStorage.getItem('weather');
-        const weatherData = JSON.parse(weather);
-        console.log(weatherData); 
-        return weatherData
-    }
 
 }
 

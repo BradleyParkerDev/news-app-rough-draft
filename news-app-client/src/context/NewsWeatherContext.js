@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from 'axios';
-import { fetchWeather, fetchNews} from "../lib";
+import { fetchWeather, fetchNews, createNewsObject, setLocalStorageData} from "../lib";
 export const NewsWeatherContext = createContext();
 
 const initialState = {
-    news: {},
+    news: {
+        topHeadlines:'',
+        categories:'',
+
+    },
     weather: {},
     location: 'chicago',
     user: {},
@@ -17,8 +21,10 @@ const newsWeatherReducer = (state, action) => {
         case 'GET_USER_DATA':
             return { ...state, user: action.payload };
         case 'FETCH_NEWS':
+            setLocalStorageData('news',action.payload)
             return { ...state, news: action.payload, loadingNews: false };
         case 'FETCH_WEATHER':
+            setLocalStorageData('weather',action.payload)
             return { ...state, weather: action.payload, loadingWeather: false };
         default:
             return state;
@@ -31,8 +37,10 @@ export const NewsWeatherProvider = ({ children }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=donald%20trump&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`);
-                dispatch({ type: 'FETCH_NEWS', payload: newsResponse.data.articles });
+                const url = `https://newsapi.org/v2/everything?q=donald%20trump`
+                const newsResponse = await fetchNews(url)
+                console.log(newsResponse)
+                dispatch({ type: 'FETCH_NEWS', payload: newsResponse});
             } catch (error) {
                 console.error('Error fetching news:', error);
             }
@@ -40,20 +48,24 @@ export const NewsWeatherProvider = ({ children }) => {
             try {
                 const weatherResponse = await fetchWeather(state.location);
                 dispatch({ type: 'FETCH_WEATHER', payload: weatherResponse.data });
+
             } catch (error) {
                 console.error('Error fetching weather:', error);
             }
         };
-
+        const newsObj = createNewsObject();
+        console.log(newsObj)
         fetchData();
-    }, [state.location]);
 
-    const getUserData = (userData) => {
-        dispatch({ type: 'GET_USER_DATA', payload: userData });
-    };
+
+        console.log(state)
+
+    }, []);
+
+
 
     return (
-        <NewsWeatherContext.Provider value={{ state, getUserData }}>
+        <NewsWeatherContext.Provider value={{ state, dispatch }}>
             {children}
         </NewsWeatherContext.Provider>
     );

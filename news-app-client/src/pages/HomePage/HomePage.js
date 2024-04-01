@@ -3,10 +3,8 @@ import { useState, useEffect } from 'react';
 import { NewsWeatherContext } from '../../context/NewsWeatherContext';
 import { UserContext } from '../../context/UserContext';
 
-
-
-
 const HomePage = (props) =>{
+
     const { state: newsWeatherState } = useContext(NewsWeatherContext);
     const { state: user, dispatch: userDispatch, setUserData } = useContext(UserContext);
     // Destructure news and weather from state
@@ -19,32 +17,9 @@ const HomePage = (props) =>{
     // Display loading message if weather data is still loading
     const weatherDisplay = loadingWeather ? 'Loading Weather...' : `Weather: ${weatherTemp} degrees Fahrenheit`;
 
-
-    function Modal() {
-        const [isOpen, setIsOpen] = useState(false);
-      
-        const openModal = () => setIsOpen(true);
-        const closeModal = () => setIsOpen(false);
-      
-        return (
-          <div>
-            <button onClick={openModal}>Open Modal</button>
-            {isOpen && (
-              <div className="modal">
-                <div className="modal-content">
-                  <span className="close" onClick={closeModal}>&times;</span>
-                  <p>This is a modal dialog.</p>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-    }
 	console.log(news)
     return (
         <div>
-            <Modal/>
-  
             <h1>{weatherDisplay}</h1>
             <h1>Latest News</h1>
             {loadingNews ? (

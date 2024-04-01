@@ -17,11 +17,7 @@ const authReducer = (state, action) => {
                 isAuth: action.payload,
                 authLoading: false,
             };
-        case 'SET_ACCESS_TOKEN':
-            return {
-                ...state,
-                accessToken: action.payload,
-            };
+
         default:
             return state;
     }
