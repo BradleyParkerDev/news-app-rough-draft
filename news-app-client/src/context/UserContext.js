@@ -1,6 +1,6 @@
 // UserContext.js
 import React, { createContext, useState, useReducer,useContext, useEffect} from 'react';
-import { fetchUserData, fetchAccessToken} from '../lib';
+import { fetchUserData, fetchAccessToken, setLocalStorageData, getLocalStorageData} from '../lib';
 import { AuthContext } from './AuthContext';
 import axios from 'axios';
 const urlEndPoint = process.env.REACT_APP_BASE_URL
@@ -30,6 +30,9 @@ const initalState = {
 
 const userReducer = (state, action) => {
     switch(action.type) {
+        case 'LOGIN':
+            setLocalStorageData('user',action.payload)
+            return action.payload
         case 'FETCH_USER_DATA': 
             return action.payload      
         case 'RESET_USER':

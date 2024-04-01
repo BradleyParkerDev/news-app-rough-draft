@@ -1,6 +1,6 @@
-import { fetchAccessToken } from "./fetchAccessToken";
+import fetchAccessToken from "./fetchAccessToken";
 
-export const authCheck = async () => {
+const authCheck = async () => {
     try {
         console.log('Running authCheck...');
         const accessToken = await fetchAccessToken();
@@ -11,3 +11,5 @@ export const authCheck = async () => {
 
     }
 };
+
+export default authCheck;

@@ -1,11 +1,11 @@
 import axios from "axios";
-import { setHeaderToken } from "./setHeaderToken";
+import setHeaderToken from "./setHeaderToken";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
 
-export const fetchAccessToken = async () => {
+const fetchAccessToken = async () => {
     try {
         const cookies = new Cookies();
         let accessToken = cookies.get('accessToken');
@@ -50,3 +50,5 @@ export const fetchAccessToken = async () => {
         throw error; // Re-throw the error to handle it in the calling function
     }
 };
+
+export default fetchAccessToken;

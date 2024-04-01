@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-export const setHeaderToken = (token) => {
+const setHeaderToken = (token) => {
     if(token){
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         console.log('Authorization headers set!')
@@ -11,3 +11,5 @@ export const setHeaderToken = (token) => {
     }
 
 }
+
+export default setHeaderToken;

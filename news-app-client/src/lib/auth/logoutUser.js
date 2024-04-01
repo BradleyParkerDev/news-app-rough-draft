@@ -1,9 +1,13 @@
 import axios from "axios";
+import Cookies from 'universal-cookie'
 
-export const logoutUser = (props) =>{
-    console.log('logging user out...')
-    localStorage.removeItem('refreshToken')
-    localStorage.removeItem('accessToken')
+const logoutUser = (props) =>{
+    const cookies = new Cookies();
+
+    console.log('logging user out...');
+    cookies.remove('refreshToken');
+    cookies.remove('accessToken');
+    localStorage.removeItem('user');
     delete axios.defaults.headers.common['Authorization'];
     alert('User logged out!')
     return(
@@ -13,3 +17,5 @@ export const logoutUser = (props) =>{
     )
 
 }
+
+export default logoutUser;

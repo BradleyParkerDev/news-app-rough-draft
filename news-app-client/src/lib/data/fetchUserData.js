@@ -1,9 +1,8 @@
 import axios from "axios";
-import { authCheck } from "../auth/authCheck";
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
 
 
-export const fetchUserData = async () => {
+const fetchUserData = async () => {
 
     try {
 
@@ -20,3 +19,5 @@ export const fetchUserData = async () => {
     }
 
 }
+
+export default fetchUserData;

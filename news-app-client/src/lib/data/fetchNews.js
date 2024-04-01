@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchNews = async(url) => {
+const fetchNews = async(url) => {
     try {
         console.log('fetching news...')
         const newsResponse = await axios.get(`${url}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`);
@@ -9,3 +9,5 @@ export const fetchNews = async(url) => {
         console.error('Error fetching news:', error);
     }
 }
+
+export default fetchNews;

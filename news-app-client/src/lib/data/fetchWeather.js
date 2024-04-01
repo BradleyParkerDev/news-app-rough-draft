@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchWeather = async (location) =>{
+const fetchWeather = async (location) =>{
     try {
         const weatherResponse = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${location}`);
         return weatherResponse
@@ -8,3 +8,5 @@ export const fetchWeather = async (location) =>{
         console.error('Error fetching weather:', error);
     }
 }
+
+export default fetchWeather;

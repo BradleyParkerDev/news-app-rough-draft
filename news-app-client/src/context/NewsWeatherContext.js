@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from 'axios';
-import { fetchWeather } from "../lib/data/fetchWeather";
+import { fetchWeather, fetchNews} from "../lib";
 export const NewsWeatherContext = createContext();
 
 const initialState = {

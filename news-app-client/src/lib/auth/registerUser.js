@@ -1,7 +1,7 @@
 import axios from "axios";
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
 
-export const registerUser = async (userData) => {
+const registerUser = async (userData) => {
     console.log('register user');
     try {
         const response = await axios.post(`${urlEndPoint}/users/register`, userData);
@@ -11,3 +11,5 @@ export const registerUser = async (userData) => {
         console.error('Error registering user:', error);
     }
 };
+
+export default registerUser;

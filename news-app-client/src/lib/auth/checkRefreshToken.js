@@ -2,7 +2,7 @@ import Cookies from "universal-cookie";
 import {jwtDecode} from "jwt-decode";
 
 
-export const checkRefreshToken = async () =>{
+const checkRefreshToken = async () =>{
     const cookies = new Cookies();
     let refreshToken = cookies.get()
 
@@ -26,3 +26,5 @@ export const checkRefreshToken = async () =>{
 
 
 }
+
+export default checkRefreshToken;
