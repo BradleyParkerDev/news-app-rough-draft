@@ -19,13 +19,24 @@ const validatePassword = async (password, hashedPassword) => {
 
 
 //Token Functions
-const generateUserTokens = (userData) => {
-    // const accessTokenExp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 minutes
-    // const accessTokenExp = Math.floor(Date.now() / 1000) + 60; // 1 minute
+const generateUserTokens = (userData, oldRefreshTokenExp) => {
+
+
+    
+
     const accessTokenExp = Math.floor(Date.now() / 1000) + 15; // 15 seconds
 
 
-    const refreshTokenExp = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;
+    // Calculate expiration time for the new refresh token
+    let refreshTokenExp;
+    if (oldRefreshTokenExp) {
+        refreshTokenExp = oldRefreshTokenExp; // Use the expiration time of the old refresh token
+    } else {
+        // Set expiration time to 7 days if old refresh token expiration is not present
+        refreshTokenExp = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60);
+        // const accessTokenExp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 minutes
+        // const accessTokenExp = Math.floor(Date.now() / 1000) + 60; // 1 minute
+    }
 
     const accessTokenPayload = {
         userData,
@@ -97,15 +108,17 @@ const verifyRefreshToken = (refreshToken) => {
     try {
 
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
+        console.log(decoded)
         const userData = {
             date: Date(),
             userId : decoded.userData.userId,
             emailAddress: decoded.userData.emailAddress
         }
         
-        return userData
+        return {decoded, userData}
 
     } catch (error) {
+        console.log(`Error verifying refresh token: ${error}`)
         
     }
 

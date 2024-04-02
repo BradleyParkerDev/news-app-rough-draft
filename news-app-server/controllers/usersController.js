@@ -40,70 +40,91 @@ const register = async (req,res) => {
 
 
 //Login
-const login = async (req,res) => {
+const login = async (req, res) => {
     try {
         const emailAddress = req.body.emailAddress;
         const password = req.body.password;
-        const user = await User.findOne({
-            emailAddress: emailAddress
-        });
+        const user = await User.findOne({ emailAddress });
 
-
-        //User not found
-        if(!user){
-            return res.status(404).json({ success: false, message: 'Could not find user.' });            return;
+        // User not found
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'Could not find user.' });
         }
 
-        //Checks password validity
-        const passwordValid = await validatePassword(password,user.password);
+        // Check password validity
+        const passwordValid = await validatePassword(password, user.password);
 
-        if(!passwordValid){
+        if (!passwordValid) {
             return res.status(401).json({ success: false, message: 'Password was incorrect.' });
         }
 
+        // Generate tokens
         const userData = {
             date: Date(),
             userId: user.id,
             emailAddress: user.emailAddress
-        }
+        };
 
-
-        // Generate tokens
         const { accessToken, refreshToken } = generateUserTokens(userData);
+
+        // Push refresh token to user's refreshTokens array
+        user.refreshTokens.push(refreshToken);
+        await user.save();
 
         res.json({
             success: true,
             accessToken,
             refreshToken,
             id: user.id
-        })
-
-
+        });
     } catch (error) {
-        console.log(error);
-        res.json({success: false, message: error.toString()});
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
-
-
 };
 
-//refreshAccessToken
-const refreshAccessToken = async (req,res) => {
-
-    const refreshToken = req.body.refreshToken;
-    const userData = verifyRefreshToken(refreshToken)
-    
 
 
+const refreshAccessToken = async (req, res) => {
+    const oldRefreshToken = req.body.refreshToken;
+    const { decoded, userData } = verifyRefreshToken(oldRefreshToken);
 
-    const {accessToken} = generateUserTokens(userData);
+    try {
+        // Find the user by their ID
+        const user = await User.findOne({ id: userData.userId });
 
-    res.json({success:true, accessToken: accessToken})
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Check if the provided refresh token exists in the user's refreshTokens array
+        const refreshTokenIndex = user.refreshTokens.findIndex(token => token === oldRefreshToken);
+
+        if (refreshTokenIndex === -1) {
+            return res.status(403).json({ success: false, message: 'Invalid refresh token' });
+        }
+
+        // Remove the old refresh token from the refreshTokens array
+        user.refreshTokens.splice(refreshTokenIndex, 1);
+
+        // Generate new access and refresh tokens
+        const { accessToken, refreshToken: newRefreshToken } = generateUserTokens(userData, decoded.exp);
+
+        // Add the new refresh token to the refreshTokens array
+        user.refreshTokens.push(newRefreshToken);
+
+        // Save the updated user document in the database
+        await user.save();
+
+        res.json({ success: true, accessToken, refreshToken: newRefreshToken });
+    } catch (error) {
+        console.error('Error refreshing access token:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
 
 
 
-
-}
 
 //Read
 const getUser = async (req,res) => {

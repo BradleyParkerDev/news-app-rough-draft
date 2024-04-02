@@ -17,8 +17,9 @@ const userSchema = new mongoose.Schema({
     emailAddress: String,
     password: String,
     following: following,
-    readLater: {},
-    refreshTokens: []
+    readLater: [],
+    refreshTokens: [],
+    lastUpdated: { type: Date, default: Date.now } // Define lastUpdated as a Date type with default value
 });
 
 
