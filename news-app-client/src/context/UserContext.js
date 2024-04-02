@@ -24,7 +24,7 @@ const initalState = {
     emailAddress: '',
     password: '', 
     following: following,
-    readLater: {},
+    readLater: [],
     loadingUser: true   
 }
 
@@ -48,32 +48,29 @@ const userReducer = (state, action) => {
 
 export const UserProvider = ({ children }) => {
     const {state: authState, dispatch:authDispatch} = useContext(AuthContext)
-    const {isAuth, accessToken} = authState;
     const [state,dispatch] = useReducer(userReducer,initalState)
 
 
     useEffect(() => {
-        // const setUserData = async () => {
-        //     try {
-        //         // Fetch access token
-        //         const token = await fetchAccessToken();
-                
-        //         // Now that we have the access token, fetch user data
-        //         const user = await fetchUserData();
-        //         console.log(user)
+        const setUserData = async () => {
+            try {
+                const accessToken = await fetchAccessToken();
+
+                if(accessToken) {
+                    const user = await fetchUserData();
+                    console.log(user) 
+
+                    if (user) {
+                        dispatch({ type: 'FETCH_USER_DATA', payload: user });
+                    }                                       
+                }
     
-        //         // Update the user context with the fetched user data
-        //         if (user) {
-        //             dispatch({ type: 'FETCH_USER_DATA', payload: user });
-        //         }
-        //     } catch (error) {
-        //         console.error('Error setting user data:', error);
-        //         // You might want to handle errors here
-        //     }
-        // };
+            } catch (error) {
+                console.error('Error setting user data:', error);
+            }
+        };
     
-        // // Call the function to set user data
-        // setUserData();
+        setUserData();
 
         console.log(state)
     }, []);

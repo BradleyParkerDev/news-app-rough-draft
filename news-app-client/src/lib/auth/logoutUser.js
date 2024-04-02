@@ -8,6 +8,9 @@ const logoutUser = () =>{
     cookies.remove('refreshToken');
     cookies.remove('accessToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('news');
+    localStorage.removeItem('weather');
+
     delete axios.defaults.headers.common['Authorization'];
     alert('User logged out!')
 

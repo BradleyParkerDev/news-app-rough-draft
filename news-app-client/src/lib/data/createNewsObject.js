@@ -9,7 +9,7 @@ const createNewsObject = () =>{
     const newsObject =  {
         name: '',
         url:'',
-        news: '',
+        articles: '',
         searchPreferences
     } 
     return newsObject;
