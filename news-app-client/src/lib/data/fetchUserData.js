@@ -1,5 +1,6 @@
 import axios from "axios";
 import getLocalStorageData from "./getLocalStorageData";
+import setLocalStorageData from "./setLocalStorageData";
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
 
 const fetchUserData = async () => {
@@ -12,6 +13,8 @@ const fetchUserData = async () => {
             const response = await axios.get(`${urlEndPoint}/users/get-user`);
             const serverUserData = response.data.userData;
             console.log(serverUserData);
+            
+            setLocalStorageData('user',serverUserData)
             return serverUserData;
         }
 

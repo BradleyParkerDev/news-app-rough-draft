@@ -2,7 +2,7 @@ import axios from "axios";
 import setDataInLocalStorage from "./setLocalStorageData";
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
 
-const updateUserData = async (userObj, userDispatch) => {
+const updateUserData = async (userObj) => {
     try {
         console.log('Updating user data on the server....');
         const response = await axios.put(`${urlEndPoint}/users/update-user`, userObj);

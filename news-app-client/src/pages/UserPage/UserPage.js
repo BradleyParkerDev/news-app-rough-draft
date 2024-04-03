@@ -5,12 +5,15 @@ import { AuthContext } from '../../context/AuthContext';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import { logoutUser, fetchAccessToken, fetchUserData, authCheck } from '../../lib';
-import { uploadImage } from '../../lib';
+import { uploadImage, updateUserData } from '../../lib';
 import maleUserImage from '../../assets/images/male_user_image_1.jpg';
 
 const UserPage = (props) => {
-    const { state: user, dispatch: userDispatch, setUserData } = useContext(UserContext);
+    const { state: userState, dispatch: userDispatch } = useContext(UserContext);
     const { state: authState, dispatch: authDispatch } = useContext(AuthContext);
+
+
+    const {id, firstName, lastName, emailAddress, userLoading} = userState;
     const { accessToken, isAuth, authLoading } = authState;
     const [imageUrl, setImageUrl] = useState('');
     const [imageFile, setImageFile] = useState('');
@@ -38,30 +41,62 @@ const UserPage = (props) => {
             const uploadedUrl = await uploadImage(imageFile);
             console.log("Uploaded image URL: ", uploadedUrl);
             setImageUrl(uploadedUrl);
+            updateUserData({id:id, userImage: imageUrl})
         } catch (error) {
             console.error("Error uploading image: ", error);
         }
     };
-    
+    const showLoginRegister = () =>{
+
+        return(
+        <div>
+            <LoginForm />
+            <br />
+            <RegistrationForm />
+        </div>
+        )
+    }
+
+    const showUserInfo = () =>{
+
+        return(
+            <div>
+                <h1>Current User:</h1>
+                <p>Fullname: {firstName} {lastName}</p>
+                <p>Email Address: {emailAddress}</p>
+                <p>isAuth: {JSON.stringify(isAuth)}</p>
+                <p>Access Token: {JSON.stringify(accessToken)}</p>
+            </div>
+        )
+    }
+    // useEffect(()=>{
+
+    //     handleFetchUserData()
+    //     console.log('Current User:')
+    //     console.log(`Fullname: ${user.firstName} ${user.lastName}`)
+    //     console.log(`Email Address: ${user.emailAddress}`)
+    //     console.log(`isAuth: ${isAuth}`)
+    //     console.log(`Access Token: ${accessToken}`)
+    //     console.log(user)
+
+    // },[user.loadingUser])
     return (
         <div>
             UserPage
             <br />
             <input type="file" accept="image/*" onChange={handleImageChange} />
 
-            <img className={styles.imageSize} src={imageUrl || maleUserImage} alt="User Image" />
-
+            {userLoading === false && <img className={styles.imageSize} src={imageUrl || maleUserImage} alt="User Image" />}
+            {userLoading === false && showUserInfo()}
             <br />
             <div className={styles.buttonContainerDiv}>
-                <button onClick={handleLogout}>Logout</button>
+                {isAuth === true && <button onClick={handleLogout}>Logout</button>}
                 <button onClick={handleFetchUserData}>Fetch User Data</button>
                 <button onClick={handleRefreshAccessToken}>Refresh Access Token</button>
                 <button onClick={handleImageUpload}>Upload Image</button>
             </div>
+            {isAuth === false && showLoginRegister()}
 
-            <LoginForm />
-            <br />
-            <RegistrationForm />
         </div>
     );
 };

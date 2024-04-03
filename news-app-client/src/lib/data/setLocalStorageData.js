@@ -1,4 +1,4 @@
-const setDataInLocalStorage = (dataType,data) =>{
+const setLocalStorageData = (dataType,data) =>{
     
     if(dataType === 'user'){
         const userString = JSON.stringify(data)
@@ -17,4 +17,4 @@ const setDataInLocalStorage = (dataType,data) =>{
     }
 }
 
-export default setDataInLocalStorage;
+export default setLocalStorageData;

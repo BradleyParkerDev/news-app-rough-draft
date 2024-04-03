@@ -1,12 +1,7 @@
 // UserContext.js
 import React, { createContext, useState, useReducer,useContext, useEffect} from 'react';
-import { fetchUserData, fetchAccessToken, setLocalStorageData, getLocalStorageData} from '../lib';
+import { fetchUserData, setLocalStorageData, getLocalStorageData} from '../lib';
 import { AuthContext } from './AuthContext';
-import axios from 'axios';
-const urlEndPoint = process.env.REACT_APP_BASE_URL
-
-
-
 
 export const UserContext = createContext();
 
@@ -25,16 +20,16 @@ const initalState = {
     password: '', 
     following: following,
     readLater: [],
-    loadingUser: true   
+    userLoading: true   
 }
 
 const userReducer = (state, action) => {
     switch(action.type) {
         case 'LOGIN':
             setLocalStorageData('user',action.payload)
-            return action.payload
+            return {...action.payload, userLoading: false}
         case 'FETCH_USER_DATA': 
-            return action.payload      
+            return {...action.payload, userLoading: false}     
         case 'RESET_USER':
             return initalState;
         default:
@@ -48,22 +43,17 @@ const userReducer = (state, action) => {
 
 export const UserProvider = ({ children }) => {
     const {state: authState, dispatch:authDispatch} = useContext(AuthContext)
+    const {isAuth, accessToken} = authState;
     const [state,dispatch] = useReducer(userReducer,initalState)
 
 
     useEffect(() => {
         const setUserData = async () => {
             try {
-                const accessToken = await fetchAccessToken();
-
-                if(accessToken) {
-                    const user = await fetchUserData();
-                    console.log(user) 
-
-                    if (user) {
-                        dispatch({ type: 'FETCH_USER_DATA', payload: user });
-                    }                                       
-                }
+                const user = await fetchUserData();
+                if (user) {
+                    dispatch({ type: 'FETCH_USER_DATA', payload: user });
+                }                                       
     
             } catch (error) {
                 console.error('Error setting user data:', error);
@@ -72,8 +62,9 @@ export const UserProvider = ({ children }) => {
     
         setUserData();
 
-        console.log(state)
-    }, []);
+        console.log(isAuth)
+
+    }, [isAuth]);
     
 
     return (

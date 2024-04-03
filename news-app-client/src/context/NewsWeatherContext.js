@@ -39,7 +39,7 @@ export const NewsWeatherProvider = ({ children }) => {
             try {
                 const url = `https://newsapi.org/v2/everything?q=donald%20trump`
                 const newsResponse = await fetchNews(url)
-                console.log(newsResponse)
+                // console.log(newsResponse)
                 dispatch({ type: 'FETCH_NEWS', payload: newsResponse});
             } catch (error) {
                 console.error('Error fetching news:', error);
@@ -54,11 +54,11 @@ export const NewsWeatherProvider = ({ children }) => {
             }
         };
         const newsObj = createNewsObject();
-        console.log(newsObj)
+        // console.log(newsObj)
         fetchData();
 
 
-        console.log(state)
+        // console.log(state)
 
     }, []);
 

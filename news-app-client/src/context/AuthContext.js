@@ -1,11 +1,12 @@
 import React, { createContext, useReducer, useEffect, useContext } from 'react';
-import { fetchAccessToken , loginUser, logoutUser} from '../lib';
+import { fetchAccessToken , loginUser, logoutUser, authCheck} from '../lib';
 import { UserContext } from './UserContext';
-
+import Cookies from 'universal-cookie';
 export const AuthContext = createContext();
 
 const initialState = {
     isAuth: false,
+    accessToken: '',
     authLoading: true,
 };
 
@@ -17,6 +18,8 @@ const authReducer = (state, action) => {
                 isAuth: action.payload,
                 authLoading: false,
             };
+        case 'SET_ACCESS_TOKEN':
+            return {...state,  accessToken: action.payload}
 
         default:
             return state;
@@ -25,6 +28,10 @@ const authReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
+    useEffect(()=>{
+        authCheck(dispatch);
+
+    },[state.accessToken])
 
 
     return (

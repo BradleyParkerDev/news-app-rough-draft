@@ -14,6 +14,7 @@ import  setLocalStorageData from './data/setLocalStorageData';
 import 	getLocalStorageData from './data/getLocalStorageData';
 import createNewsObject from './data/createNewsObject';
 import uploadImage from './data/uploadImage';
+import updateUserData from './data/updateUserData';
 
 // Export the functions
 export {
@@ -30,6 +31,7 @@ export {
 	setLocalStorageData,
 	getLocalStorageData,
 	createNewsObject,
-	uploadImage
+	uploadImage,
+	updateUserData
 	
 };

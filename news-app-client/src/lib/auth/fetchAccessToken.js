@@ -12,6 +12,7 @@ const fetchAccessToken = async () => {
         let accessToken = cookies.get('accessToken');
         let refreshToken = cookies.get('refreshToken');
 
+
         if (!accessToken && !refreshToken) {
             console.log('Neither access token nor refresh token found in cookies.');
             localStorage.removeItem('user')
@@ -23,6 +24,7 @@ const fetchAccessToken = async () => {
             const response = await axios.post(`${urlEndPoint}/users/refresh-access-token`, { refreshToken });
             accessToken = response.data.accessToken;
             refreshToken = response.data.refreshToken;
+            // console.log(refreshToken)
 
             const decodedAccessToken = jwtDecode(accessToken);
             const decodedRefreshToken = jwtDecode(refreshToken);
