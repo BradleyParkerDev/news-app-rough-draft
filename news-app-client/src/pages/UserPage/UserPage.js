@@ -19,7 +19,7 @@ const UserPage = (props) => {
     const [imageFile, setImageFile] = useState('');
 
     const handleLogout = () => {
-        logoutUser();
+        logoutUser(authDispatch);
     };
 
     const handleFetchUserData = async () => {

@@ -7,7 +7,7 @@ import styles from './LoginForm.module.css'
 
 const LoginForm = () =>{
     const { dispatch: userDispatch} = useContext(UserContext);
-    const { dispatch: authDispatch} = useContext(AuthContext);
+    const { state,  dispatch} = useContext(AuthContext);
 
     const {formData, handleChange, resetForm} = useForm({
         emailAddress:'',
@@ -18,7 +18,7 @@ const LoginForm = () =>{
         e.preventDefault();
 
         try {
-            loginUser(formData, userDispatch , authDispatch); // Corrected userDispatch argument
+            loginUser(formData, userDispatch , state , dispatch); // Corrected userDispatch argument
         } catch (error) {
             console.error('Error logging in user:', error);
         }

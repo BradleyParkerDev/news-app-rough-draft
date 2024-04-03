@@ -1,10 +1,11 @@
 import axios from "axios";
+import authCountdown from "./authCountdown";
 import setHeaderToken from "./setHeaderToken";
 import fetchUserData from "../data/fetchUserData";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
-const loginUser = async (userData, userDispatch, authDispatch) => {
+const loginUser = async (userData, userDispatch, state, dispatch) => {
     console.log('logging user in...')
 
     try {
@@ -29,9 +30,12 @@ const loginUser = async (userData, userDispatch, authDispatch) => {
 
         if (accessToken) {
             setHeaderToken(accessToken);
-            authDispatch({ type: 'SET_AUTHENTICATED', payload: true });
+            dispatch({ type: 'SET_AUTHENTICATED', payload: true });
+            dispatch({ type: 'SET_ACCESS_TOKEN', payload: accessToken });
+            authCountdown(state,dispatch,accessToken)
+
         } else {
-            authDispatch({ type: 'SET_AUTHENTICATED', payload: false });
+            dispatch({ type: 'SET_AUTHENTICATED', payload: false });
         }
 
         const user = await fetchUserData();

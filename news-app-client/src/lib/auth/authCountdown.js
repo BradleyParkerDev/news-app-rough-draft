@@ -1,26 +1,44 @@
 import { jwtDecode } from "jwt-decode";
 
-const authCountdown = async (dispatch, accessToken) => {
-  const decodedAccessToken = jwtDecode(accessToken);
-  let accessTokenExp = (decodedAccessToken.exp - decodedAccessToken.iat) * 1000;
+const authCountdown = async (state, dispatch, accessToken) => {
+  if (state.authCountdown === false) {
+    dispatch({ type: 'SET_AUTH_COUNTDOWN', payload: true });
+    const decodedAccessToken = jwtDecode(accessToken);
+    let accessTokenExp = (decodedAccessToken.exp - decodedAccessToken.iat) * 1000;
 
-  // Function to update and display the countdown
-  const updateCountdown = () => {
-    accessTokenExp -= 1;
-    let seconds = accessTokenExp / 1000
-    if (Number.isInteger(seconds)){ // i want it to only show if seconds is a whole number
-        console.log(`Access token expires in ${seconds} seconds`); // Output remaining milliseconds
-    }
-    
-    if (accessTokenExp <= 0) {
-      clearInterval(intervalId); // Stop the countdown when it reaches zero
-      console.log('Access token expired!'); // Output 'Time up!' message
-      dispatch({type:'SET_ACCESS_TOKEN', payload:''})
-    }
-  };
+    // Define intervalId outside the if block
+    let intervalId;
 
-  // Start the countdown
-  const intervalId = setInterval(updateCountdown, 1);
+    // Function to update and display the countdown
+    const updateCountdown = () => {
+		accessTokenExp -= 1000;
+		let seconds = accessTokenExp / 1000;
+		if (Number.isInteger(seconds) && seconds > 0) {
+		console.log(`Access token expires in ${seconds} seconds`);
+		if (state.abortCountdown) {
+			console.log('abort')
+			seconds = 0;
+			clearInterval(intervalId);
+			dispatch({ type: 'SET_AUTH_COUNTDOWN', payload: false }); // Reset the countdown state
+			return;
+		}
+		}
+
+		if (accessTokenExp <= 0) {
+		clearInterval(intervalId);
+		console.log('Access token expired!');
+		dispatch({ type: 'SET_ACCESS_TOKEN', payload: '' });
+		}
+    };
+
+    // Start the countdown
+    intervalId = setInterval(updateCountdown, 1000);
+
+    dispatch({ type: 'SET_AUTH_COUNTDOWN', payload: false });
+
+  } else {
+    console.log('authCountdown currently running...');
+  }
 };
 
 export default authCountdown;

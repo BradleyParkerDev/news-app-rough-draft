@@ -1,13 +1,13 @@
-import React, { createContext, useReducer, useEffect, useContext } from 'react';
-import { fetchAccessToken , loginUser, logoutUser, authCheck} from '../lib';
-import { UserContext } from './UserContext';
-import Cookies from 'universal-cookie';
+import React, { createContext, useReducer, useEffect, useRef } from 'react';
+import {authCheck} from '../lib';
 export const AuthContext = createContext();
 
 const initialState = {
     isAuth: false,
     accessToken: '',
     authLoading: true,
+    authCountdown: false,
+    abortCountdown: false
 };
 
 const authReducer = (state, action) => {
@@ -19,7 +19,12 @@ const authReducer = (state, action) => {
                 authLoading: false,
             };
         case 'SET_ACCESS_TOKEN':
-            return {...state,  accessToken: action.payload}
+            return {...state,  accessToken: action.payload};
+
+        case 'SET_AUTH_COUNTDOWN':
+            return {...state, authCountdown: action.payload};
+        case 'ABORT_AUTH_COUNTDOWN':
+            return {...state, abortCountdown: action.payload}
 
         default:
             return state;
@@ -28,8 +33,12 @@ const authReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
+
     useEffect(()=>{
-        authCheck(dispatch);
+        const user = localStorage.getItem('user')
+        if(state.accessToken  === '' && user ){
+            authCheck(state, dispatch);
+        }
 
     },[state.accessToken])
 
