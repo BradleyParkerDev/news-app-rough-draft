@@ -1,5 +1,5 @@
 const User = require('../../../models/Users');
-const { validatePassword, generateUserTokens } = require('../../../auth');
+const { validatePassword, generateUserTokens, getTokenExpiration } = require('../../../auth');
 
 // Login
 const login = async (req, res) => {
@@ -24,15 +24,19 @@ const login = async (req, res) => {
         };
 
         const { accessToken, refreshToken } = generateUserTokens(userData);
+        user.refreshTokens.push(refreshToken)
+        await user.save()
+
+        const refreshTokenExpiration = getTokenExpiration(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
+        const accessTokenExpiration = getTokenExpiration(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY)
 
         // Store tokens in cookies
-        res.cookie('refreshToken', refreshToken, { httpOnly: true });
-        res.cookie('accessToken', accessToken); // Consider adding secure, same-site, and path options
-
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, expires: refreshTokenExpiration });
+        res.cookie('accessToken', accessToken,{expires: accessTokenExpiration}); // Consider adding secure, same-site, and path options
         // Respond with success message and any additional data
         res.json({
             success: true,
-            message: 'User logged in successfully.',
+            message: 'User successfully logged in.',
             userId: user.id
         });
     } catch (error) {

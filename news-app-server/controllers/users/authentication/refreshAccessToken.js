@@ -9,9 +9,9 @@ const refreshAccessToken = async (req, res) => {
             refreshTokenExpiration,
             accessToken,
             accessTokenExpiration
-        } = await checkUserRefreshTokens(oldRefreshToken)
+        } = await checkUserRefreshTokens(oldRefreshToken,res)
 
-
+        console.log(accessToken)
         res.cookie('refreshToken',newRefreshToken,{
             httpOnly: true,
             expires: refreshTokenExpiration

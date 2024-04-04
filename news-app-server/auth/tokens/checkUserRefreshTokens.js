@@ -5,7 +5,7 @@ const verifyRefreshToken = require('./verifyRefreshToken');
 
 
 
-const checkUserRefreshTokens = async(oldRefreshToken) =>{
+const checkUserRefreshTokens = async(oldRefreshToken,res) =>{
 
 
     const { decoded, userData } = verifyRefreshToken(oldRefreshToken);
@@ -29,8 +29,6 @@ const checkUserRefreshTokens = async(oldRefreshToken) =>{
 
     // Remove the old refresh token from the refreshTokens array
     user.refreshTokens.splice(refreshTokenIndex, 1);
-
-
 
 
     // Generate new access and refresh tokens
