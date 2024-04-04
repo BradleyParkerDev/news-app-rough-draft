@@ -7,7 +7,6 @@ import { jwtDecode } from "jwt-decode";
 const urlEndPoint = process.env.REACT_APP_BASE_URL;
 const loginUser = async (userData, userDispatch, state, dispatch) => {
     console.log('logging user in...')
-
     try {
         const cookies = new Cookies();
         const response = await axios.post(`${urlEndPoint}/users/login`, {
@@ -15,19 +14,20 @@ const loginUser = async (userData, userDispatch, state, dispatch) => {
             password: userData.password
         });
         const { accessToken, refreshToken } = response.data; 
+
+        // Creating cookie for refreshToken
+        const decodedRefreshToken = jwtDecode(refreshToken);
+        const refreshExpirationTime = (decodedRefreshToken.exp - decodedRefreshToken.iat) * 1000;
+        console.log(refreshExpirationTime)
+        cookies.set('refreshToken', refreshToken,  { expires: new Date(Date.now() + refreshExpirationTime) }); 
         
-        cookies.set('refreshToken', refreshToken); 
-        const decodedToken = jwtDecode(accessToken);
+        // Creating cookie for accessToken
+        const decodedAccessToken = jwtDecode(accessToken);
+        const accessExpirationTime = (decodedAccessToken.exp - decodedAccessToken.iat) * 1000;
+        console.log(accessExpirationTime)
+        cookies.set('accessToken', accessToken, { expires: new Date(Date.now() + accessExpirationTime) });
 
-        // Calculate the expiration time in milliseconds
-        const expirationTime = (decodedToken.exp - decodedToken.iat) * 1000;
-        console.log(expirationTime)
-        // Set the access token cookie with expiration time
-        cookies.set('accessToken', accessToken, { expires: new Date(Date.now() + expirationTime) });
-
-
-
-
+        
         if (accessToken) {
             setHeaderToken(accessToken);
             dispatch({ type: 'SET_AUTHENTICATED', payload: true });

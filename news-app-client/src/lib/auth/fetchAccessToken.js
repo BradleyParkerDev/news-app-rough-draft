@@ -22,14 +22,22 @@ const fetchAccessToken = async () => {
         if (!accessToken) {
             console.log('Access token not found in cookies. Refreshing...');
             const response = await axios.post(`${urlEndPoint}/users/refresh-access-token`, { refreshToken });
-            accessToken = response.cookies.accessToken;
-            // refreshToken = response.data.refreshToken;
-            // console.log(refreshToken)
+            const{
+                newRefreshToken,
+                refreshTokenExpiration,
+                accessToken,
+                accessTokenExpiration
+            } = response.data.tokens
+
+            cookies.set('accessToken', accessToken, {expires: accessTokenExpiration});
+            cookies.set('refreshToken', newRefreshToken, {expires: refreshTokenExpiration});
+
 
 
         } else {
             console.log('Using access token from cookies.');
         }
+
 
         setHeaderToken(accessToken);
 
