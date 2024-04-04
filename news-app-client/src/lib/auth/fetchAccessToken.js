@@ -22,22 +22,11 @@ const fetchAccessToken = async () => {
         if (!accessToken) {
             console.log('Access token not found in cookies. Refreshing...');
             const response = await axios.post(`${urlEndPoint}/users/refresh-access-token`, { refreshToken });
-            accessToken = response.data.accessToken;
-            refreshToken = response.data.refreshToken;
+            accessToken = response.cookies.accessToken;
+            // refreshToken = response.data.refreshToken;
             // console.log(refreshToken)
 
-            const decodedAccessToken = jwtDecode(accessToken);
-            const decodedRefreshToken = jwtDecode(refreshToken);
 
-            // Calculate the expiration time in milliseconds
-            const accessTokenExp = (decodedAccessToken.exp - decodedAccessToken.iat) * 1000;
-            // Set the access token cookie with expiration time
-            cookies.set('accessToken', accessToken, { expires: new Date(Date.now() + accessTokenExp) });
-
-            // Calculate the expiration time in milliseconds
-            const refreshTokenExp = (decodedRefreshToken.exp - decodedRefreshToken.iat) * 1000;
-            // Set the refresh token cookie with expiration time
-            cookies.set('refreshToken', refreshToken, { expires: new Date(Date.now() + refreshTokenExp) });
         } else {
             console.log('Using access token from cookies.');
         }

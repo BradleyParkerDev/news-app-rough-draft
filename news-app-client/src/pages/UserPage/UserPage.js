@@ -69,17 +69,7 @@ const UserPage = (props) => {
             </div>
         )
     }
-    // useEffect(()=>{
 
-    //     handleFetchUserData()
-    //     console.log('Current User:')
-    //     console.log(`Fullname: ${user.firstName} ${user.lastName}`)
-    //     console.log(`Email Address: ${user.emailAddress}`)
-    //     console.log(`isAuth: ${isAuth}`)
-    //     console.log(`Access Token: ${accessToken}`)
-    //     console.log(user)
-
-    // },[user.loadingUser])
     return (
         <div>
             UserPage

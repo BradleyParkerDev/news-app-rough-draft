@@ -62,9 +62,9 @@ export const UserProvider = ({ children }) => {
     
         setUserData();
 
-        console.log(isAuth)
+        console.log(`isAuth: ${isAuth}`)
 
-    }, [isAuth]);
+    }, [isAuth, accessToken]);
     
 
     return (
