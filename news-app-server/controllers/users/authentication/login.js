@@ -1,4 +1,6 @@
 const User = require('../../../models/Users');
+const cookieParser = require('cookie-parser');
+
 const { validatePassword, generateUserTokens, getTokenExpiration } = require('../../../auth');
 
 // Login
@@ -29,15 +31,13 @@ const login = async (req, res) => {
 
         const refreshTokenExpiration = getTokenExpiration(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
         const accessTokenExpiration = getTokenExpiration(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY)
-
-        // Store tokens in cookies
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, expires: refreshTokenExpiration });
-        res.cookie('accessToken', accessToken,{expires: accessTokenExpiration}); // Consider adding secure, same-site, and path options
+  
         // Respond with success message and any additional data
         res.json({
             success: true,
             message: 'User successfully logged in.',
-            userId: user.id
+            accessToken,
+            refreshToken
         });
     } catch (error) {
         console.error('Error during login:', error);
