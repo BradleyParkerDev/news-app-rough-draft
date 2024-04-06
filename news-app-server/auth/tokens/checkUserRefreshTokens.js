@@ -22,7 +22,8 @@ const checkUserRefreshTokens = async(oldRefreshToken,res) =>{
     // Check if the provided refresh token exists in the user's refreshTokens array
     const refreshTokenIndex = user.refreshTokens.findIndex(token => token === oldRefreshToken);
     if (refreshTokenIndex === -1) {
-        return res.status(403).json({ success: false, message: 'Invalid refresh token' });
+        res.status(403).json({ success: false, message: 'Invalid refresh token' });
+        return 
     }
 
 
