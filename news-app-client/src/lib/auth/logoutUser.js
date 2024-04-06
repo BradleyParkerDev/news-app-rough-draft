@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie'
 const logoutUser = (authDispatch) =>{
     const cookies = new Cookies();
     console.log('aborting auth countdown.')
-    authDispatch({type:'ABORT_AUTH_COUNTDOWN', payload: true})
+    // authDispatch({type:'ABORT_AUTH_COUNTDOWN', payload: true})
    
     console.log('logging user out...');
 
