@@ -24,9 +24,6 @@ const fetchUserData = async () => {
 
         if (serverUserData.lastUpdated > localUserData.lastUpdated) {
             console.log('Server data is more recent, updating local storage...');
-            // Update local storage data with server data
-            // For example:
-            // localStorage.setItem('user', JSON.stringify(serverUserData));
             return serverUserData;
         } else {
             console.log('Local storage data is up-to-date.');

@@ -49,15 +49,18 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         const setUserData = async () => {
-            try {
-                const user = await fetchUserData();
-                if (user) {
-                    dispatch({ type: 'FETCH_USER_DATA', payload: user });
-                }                                       
-    
-            } catch (error) {
-                console.error('Error setting user data:', error);
+            if(accessToken){
+                try {
+                    const user = await fetchUserData();
+                    if (user) {
+                        dispatch({ type: 'FETCH_USER_DATA', payload: user });
+                    }                                       
+        
+                } catch (error) {
+                    console.error('Error setting user data:', error);
+                }                
             }
+
         };
     
         setUserData();

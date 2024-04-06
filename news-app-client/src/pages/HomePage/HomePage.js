@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { useState, useEffect } from 'react';
-import { NewsWeatherContext } from '../../context/NewsWeatherContext';
+import { PreferencesContext } from '../../context/PreferencesContext';
 import { UserContext } from '../../context/UserContext';
 
 const HomePage = (props) =>{
 
-    const { state: newsWeatherState } = useContext(NewsWeatherContext);
+    const { state: preferences } = useContext(PreferencesContext);
     const { state: user, dispatch: userDispatch, setUserData } = useContext(UserContext);
     // Destructure news and weather from state
-    const { news, weather, loadingWeather, loadingNews } = newsWeatherState;
+    const { news, weather, loadingWeather, loadingNews } = preferences;
     
 
     // Check if weather data has been loaded

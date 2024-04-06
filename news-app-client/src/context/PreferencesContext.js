@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import axios from 'axios';
 import { fetchWeather, fetchNews, createNewsObject, setLocalStorageData} from "../lib";
-export const NewsWeatherContext = createContext();
+export const PreferencesContext = createContext();
 
 const initialState = {
     news: {
@@ -16,7 +16,7 @@ const initialState = {
     loadingWeather: true
 };
 
-const newsWeatherReducer = (state, action) => {
+const preferencesReducer = (state, action) => {
     switch(action.type) {
         case 'GET_USER_DATA':
             return { ...state, user: action.payload };
@@ -31,8 +31,8 @@ const newsWeatherReducer = (state, action) => {
     }
 };
 
-export const NewsWeatherProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(newsWeatherReducer, initialState);
+export const PreferencesProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(preferencesReducer, initialState);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,8 +65,8 @@ export const NewsWeatherProvider = ({ children }) => {
 
 
     return (
-        <NewsWeatherContext.Provider value={{ state, dispatch }}>
+        <PreferencesContext.Provider value={{ state, dispatch }}>
             {children}
-        </NewsWeatherContext.Provider>
+        </PreferencesContext.Provider>
     );
 };
