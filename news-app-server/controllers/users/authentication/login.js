@@ -26,8 +26,13 @@ const login = async (req, res) => {
         };
 
         const { accessToken, refreshToken } = generateUserTokens(userData);
-        user.refreshTokens.push(refreshToken)
-        await user.save()
+        try {
+            user.refreshTokens.push(refreshToken)
+            await user.save()            
+        } catch (error) {
+            console.log(error)
+        }
+     
 
         const refreshTokenExpiration = getTokenExpiration(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
         const accessTokenExpiration = getTokenExpiration(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY)

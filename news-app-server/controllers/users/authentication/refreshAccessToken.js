@@ -4,15 +4,25 @@ const {checkUserRefreshTokens} = require('../../../auth')
 const refreshAccessToken = async (req, res) => {
     const oldRefreshToken = req.body.refreshToken;
     try {
-        console.log(oldRefreshToken)
-        const tokens = await checkUserRefreshTokens(oldRefreshToken,res)
 
+        console.log(`Old refresh token ${oldRefreshToken}`)
+        const{
+            newRefreshToken,
+            refreshTokenExpiration,
+            accessToken,
+            accessTokenExpiration
+        } = await checkUserRefreshTokens(oldRefreshToken,res)
+
+        console.log(`New refresh token ${newRefreshToken}`)
 
         
         res.json({ 
             success: true, 
             message: 'New refresh and access tokens sent in cookies.', 
-            tokens
+            newRefreshToken,
+            refreshTokenExpiration,
+            accessToken,
+            accessTokenExpiration
         });
 
 
