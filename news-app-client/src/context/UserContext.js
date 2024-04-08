@@ -14,10 +14,12 @@ const following = {
 
 
 const initalState = {
+    id:'',
     firstName: '',
     lastName: '',
     emailAddress: '',
-    password: '', 
+    password: '',
+    userImage:'', 
     following: following,
     readLater: [],
     userLoading: true   

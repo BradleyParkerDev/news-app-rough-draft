@@ -1,9 +1,9 @@
 import { firebaseStorage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const uploadImage = async (imageFile) => { // Accept imageFile as parameter
+const uploadImage = async (id, imageFile) => { // Accept imageFile as parameter
     try {
-        const imageRef = ref(firebaseStorage, `images/${imageFile.name}`);
+        const imageRef = ref(firebaseStorage, `user-images/${id}/${imageFile.name}`);
         await uploadBytes(imageRef, imageFile);
 
         const imageUrl = await getDownloadURL(imageRef);

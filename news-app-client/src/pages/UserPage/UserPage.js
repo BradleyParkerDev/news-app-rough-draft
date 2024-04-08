@@ -8,6 +8,7 @@ import { logoutUser, fetchAccessToken, fetchUserData, deleteUser } from '../../l
 import { uploadImage, updateUserData } from '../../lib';
 import maleUserImage from '../../assets/images/male_user_image_1.jpg';
 import {useNavigate} from 'react-router-dom';
+import UpdateUserForm from '../../components/UpdateUserForm/UpdateUserForm';
 const UserPage = (props) => {
     const navigate = useNavigate();
     const { state: userState, dispatch: userDispatch } = useContext(UserContext);
@@ -34,7 +35,7 @@ const UserPage = (props) => {
     };
 
     const handleDeleteUser = () => {
-        
+
         deleteUser()
         navigate('/')
 
@@ -47,10 +48,10 @@ const UserPage = (props) => {
 
     const handleImageUpload = async () => {
         try {
-            const uploadedUrl = await uploadImage(imageFile);
+            const uploadedUrl = await uploadImage(id, imageFile);
             console.log("Uploaded image URL: ", uploadedUrl);
             setImageUrl(uploadedUrl);
-            updateUserData({id:id, userImage: imageUrl})
+            updateUserData({userImage: imageUrl})
         } catch (error) {
             console.error("Error uploading image: ", error);
         }
@@ -75,6 +76,8 @@ const UserPage = (props) => {
                 <p>Email Address: {emailAddress}</p>
                 <p>isAuth: {JSON.stringify(isAuth)}</p>
                 <p>Access Token: {JSON.stringify(accessToken)}</p>
+                <br/>
+                <UpdateUserForm />
             </div>
         )
     }
@@ -85,7 +88,7 @@ const UserPage = (props) => {
             <br />
             <input type="file" accept="image/*" onChange={handleImageChange} />
 
-            {userLoading === false && <img className={styles.imageSize} src={imageUrl || maleUserImage} alt="User Image" />}
+            {userLoading === false && <img className={styles.imageSize} src={imageUrl} alt="User Image" />}
             {userLoading === false && showUserInfo()}
             <br />
             <div className={styles.buttonContainerDiv}>
