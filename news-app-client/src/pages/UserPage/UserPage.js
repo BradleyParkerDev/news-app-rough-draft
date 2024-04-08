@@ -4,11 +4,12 @@ import { UserContext } from '../../context/UserContext';
 import { AuthContext } from '../../context/AuthContext';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
 import LoginForm from '../../components/LoginForm/LoginForm';
-import { logoutUser, fetchAccessToken, fetchUserData, authCheck } from '../../lib';
+import { logoutUser, fetchAccessToken, fetchUserData, deleteUser } from '../../lib';
 import { uploadImage, updateUserData } from '../../lib';
 import maleUserImage from '../../assets/images/male_user_image_1.jpg';
-
+import {useNavigate} from 'react-router-dom';
 const UserPage = (props) => {
+    const navigate = useNavigate();
     const { state: userState, dispatch: userDispatch } = useContext(UserContext);
     const { state: authState, dispatch: authDispatch } = useContext(AuthContext);
 
@@ -20,6 +21,7 @@ const UserPage = (props) => {
 
     const handleLogout = () => {
         logoutUser(authDispatch);
+        navigate('/')
     };
 
     const handleFetchUserData = async () => {
@@ -30,6 +32,13 @@ const UserPage = (props) => {
     const handleRefreshAccessToken = () => {
         fetchAccessToken();
     };
+
+    const handleDeleteUser = () => {
+        
+        deleteUser()
+        navigate('/')
+
+    }
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -81,6 +90,8 @@ const UserPage = (props) => {
             <br />
             <div className={styles.buttonContainerDiv}>
                 {isAuth === true && <button onClick={handleLogout}>Logout</button>}
+                {isAuth === true && <button onClick={handleDeleteUser}>Delete User</button>}
+
                 <button onClick={handleFetchUserData}>Fetch User Data</button>
                 <button onClick={handleRefreshAccessToken}>Refresh Access Token</button>
                 <button onClick={handleImageUpload}>Upload Image</button>

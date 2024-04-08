@@ -11,13 +11,32 @@ const fetchAccessToken = async () => {
         const cookies = new Cookies();
         let accessToken = cookies.get('accessToken');
         let refreshToken = cookies.get('refreshToken');
+        let user = localStorage.getItem('user')
 
+
+
+        // Both the access token  and refresh token were not found in cookies
         if (!accessToken && !refreshToken) {
-            console.log('Neither access token nor refresh token found in cookies.');
-            localStorage.removeItem('user')
-            return;
+
+            // if user in local storage wait a few seconds and retry token fetch
+            // if(user){
+            //     setTimeout(()=>{
+            //         return
+            //         accessToken = cookies.get('accessToken');
+            //         refreshToken = cookies.get('refreshToken');
+            //     },3000)
+            // }
+
+            // // if tokens still not found but user is, remove user from local storage
+            // if((!accessToken && !refreshToken) && user){
+                console.log('Neither access token nor refresh token found in cookies.');
+                localStorage.removeItem('user')  
+                return;                
+            // }
+
         }
 
+        // The access token was found in cookies
         if (!accessToken) {
             console.log('Access token not found in cookies. Refreshing...');
             const response = await axios.post(`${urlEndPoint}/users/refresh-access-token`, { refreshToken });

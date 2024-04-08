@@ -26,7 +26,7 @@ const authCountdown = async (state, dispatch, accessToken) => {
 
 		if (accessTokenExp <= 0) {
 		clearInterval(intervalId);
-		console.log('Access token expired!');
+		console.log('Access token has expired!');
 		dispatch({ type: 'SET_ACCESS_TOKEN', payload: '' });
 		}
     };

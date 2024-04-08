@@ -1,6 +1,9 @@
 import React, { createContext, useReducer, useEffect, useRef } from 'react';
+import Cookies from "universal-cookie";
 import {authCheck} from '../lib';
 export const AuthContext = createContext();
+const cookies = new Cookies();
+
 
 const initialState = {
     isAuth: false,
@@ -35,8 +38,14 @@ export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
 
     useEffect(()=>{
+
+
+        const accessTokenFromCookies = cookies.get('accessToken');
+
         const user = localStorage.getItem('user')
         if(state.accessToken  === '' && user ){
+
+            dispatch({type:'SET_ACCESS_TOKEN', accessTokenFromCookies})
             authCheck(state, dispatch);
         }
 
