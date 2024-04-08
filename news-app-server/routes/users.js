@@ -1,11 +1,7 @@
 const express = require('express');
+const {register, login, getUser, updateUser, deleteUser, refreshAccessToken} = require('../controllers/users');
+const {verifyUserToken}  = require('../auth');
 const router = express.Router();
-const usersController = require('../controllers/users');
-const auth = require('../auth')
-
-const {register, login, getUser, updateUser, deleteUser, refreshAccessToken} = usersController;
-const {verifyUserToken} = auth;
-
 
 //Routes
 router.post('/register', register);

@@ -4,9 +4,11 @@ const getUser = async (req,res) => {
         const id = req.decoded.userData.userId
         const user = await User.findOne({id:id})
         userData = {
+            id:user.id,
             emailAddress: user.emailAddress,
             firstName: user.firstName,
             lastName: user.lastName,
+            userImage: user.userImage,
             following: user.following,
             readLater: user.readLater
         }
