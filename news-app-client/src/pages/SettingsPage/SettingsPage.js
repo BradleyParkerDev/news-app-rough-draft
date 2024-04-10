@@ -1,4 +1,4 @@
-import styles from './UserPage.module.css';
+import styles from './SettingsPage.module.css';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { AuthContext } from '../../context/AuthContext';
@@ -9,13 +9,13 @@ import { uploadImage, updateUserData } from '../../lib';
 import maleUserImage from '../../assets/images/male_user_image_1.jpg';
 import {useNavigate} from 'react-router-dom';
 import UpdateUserForm from '../../components/UpdateUserForm/UpdateUserForm';
-const UserPage = (props) => {
+const SettingsPage = (props) => {
     const navigate = useNavigate();
     const { state: userState, dispatch: userDispatch } = useContext(UserContext);
     const { state: authState, dispatch: authDispatch } = useContext(AuthContext);
 
 
-    const {id, firstName, lastName, emailAddress, userLoading} = userState;
+    const {id, firstName, lastName, emailAddress, userLoading, userImage} = userState;
     const { accessToken, isAuth, authLoading } = authState;
     const [imageUrl, setImageUrl] = useState('');
     const [imageFile, setImageFile] = useState('');
@@ -49,9 +49,8 @@ const UserPage = (props) => {
     const handleImageUpload = async () => {
         try {
             const uploadedUrl = await uploadImage(id, imageFile);
+            await updateUserData({userImage: uploadedUrl})
             console.log("Uploaded image URL: ", uploadedUrl);
-            setImageUrl(uploadedUrl);
-            updateUserData({userImage: imageUrl})
         } catch (error) {
             console.error("Error uploading image: ", error);
         }
@@ -84,11 +83,14 @@ const UserPage = (props) => {
 
     return (
         <div>
-            UserPage
+            SettingsPage
             <br />
             <input type="file" accept="image/*" onChange={handleImageChange} />
 
-            {userLoading === false && <img className={styles.imageSize} src={imageUrl} alt="User Image" />}
+            {userLoading === false && <img className={styles.imageSize} src={imageUrl} alt="Upload Image" />}
+            <br/>
+            {userLoading === false && <img className={styles.imageSize} src={userImage} alt="User Image" />}
+
             {userLoading === false && showUserInfo()}
             <br />
             <div className={styles.buttonContainerDiv}>
@@ -105,4 +107,4 @@ const UserPage = (props) => {
     );
 };
 
-export default UserPage;
+export default SettingsPage;

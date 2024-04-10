@@ -11,8 +11,8 @@ const NavBar = (props) => {
                 <p className={styles.listItem} onClick={() => navigate('/')}>
                     Home
                 </p>
-                <p className={styles.listItem} onClick={() => navigate('/user-page')}>
-                    User Page
+                <p className={styles.listItem} onClick={() => navigate('/settings')}>
+                    Settings
                 </p>
             </div>
         </div>

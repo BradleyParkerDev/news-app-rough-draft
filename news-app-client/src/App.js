@@ -3,8 +3,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import Layout from '../src/layout/Layout';
 import HomePage from './pages/HomePage/HomePage';
-import UserPage from './pages/UserPage/UserPage';
-
+import SettingsPage from './pages/SettingsPage/SettingsPage';
 
 const App = () => {
 	const router = createBrowserRouter([{
@@ -16,8 +15,8 @@ const App = () => {
 				element:<HomePage/>
 			},
 			{
-				path: '/user-page',
-				element: <UserPage/>
+				path: '/settings',
+				element: <SettingsPage/>
 			}
 		]
 	}])
