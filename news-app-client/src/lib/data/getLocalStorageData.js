@@ -2,7 +2,7 @@ const getLocalStorageData = (dataType) =>{
     if(dataType==='user'){
         const user = localStorage.getItem('user');
         const userData = JSON.parse(user);
-        console.log(userData); 
+        // console.log(userData); 
         return userData
     }
 

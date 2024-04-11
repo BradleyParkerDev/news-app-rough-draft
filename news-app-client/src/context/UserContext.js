@@ -66,8 +66,10 @@ export const UserProvider = ({ children }) => {
         };
     
         setUserData();
-
-        console.log(`isAuth: ${isAuth}`)
+        
+        if(isAuth){
+            console.log(`isAuth: ${isAuth}`)
+        }
 
     }, [isAuth, accessToken]);
     

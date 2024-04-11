@@ -3,7 +3,7 @@ import authCountdown from "./authCountdown";
 
 const authCheck = async (state, dispatch) => {
     try {
-        console.log(`Authentication check in progress...`)
+        // console.log(`Authentication check in progress...`)
         const accessToken = await fetchAccessToken()
 
         if(accessToken){
@@ -12,7 +12,14 @@ const authCheck = async (state, dispatch) => {
         }
         authCountdown(state, dispatch, accessToken)
     } catch (error) {
-        console.error('Error checking authentication:', error);
+        if (error.response && error.response.status === 403) {
+            console.log('Old refresh token is not valid.');
+            localStorage.removeItem('user')
+        }
+        if (error.response && error.response.status === 500) {
+            console.log('Error fetching access token.');
+        }       
+        throw error; // Re-throw the error to handle it in the calling function
     }
 
 
