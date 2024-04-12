@@ -18,6 +18,7 @@ const register = async (req,res) => {
             password: passwordHash
         });        
         const insertedUser = await newUser.save();
+
         res.json({success: true, newUser: insertedUser});
 
     } catch (error) {

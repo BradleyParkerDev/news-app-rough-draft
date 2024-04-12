@@ -1,5 +1,4 @@
 const User = require('../../../models/Users')
-
 //Delete
 const deleteUser = async (req,res) => {
 
