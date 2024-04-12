@@ -4,17 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UserProvider } from './context/UserContext'; 
-import { PreferencesProvider } from './context/PreferencesContext';
+import { NewsProvider } from './context/NewsContext';
 import { AuthProvider } from './context/AuthContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <AuthProvider>
-            <PreferencesProvider>
+            <NewsProvider>
                 <UserProvider>
                     <App />      
                 </UserProvider>
-            </PreferencesProvider>            
+            </NewsProvider>            
         </AuthProvider>
     </React.StrictMode>
 );

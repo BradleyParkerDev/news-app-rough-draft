@@ -1,16 +1,11 @@
 // UserContext.js
 import React, { createContext, useState, useReducer,useContext, useEffect} from 'react';
-import { fetchUserData, setLocalStorageData, getLocalStorageData} from '../lib';
+import { fetchUserData, setLocalStorageData, getLocalStorageData, authCheck} from '../lib';
 import { AuthContext } from './AuthContext';
 
 export const UserContext = createContext();
 
-const following = {
-    categories:[],
-    sources:[],
-    countries:[]
 
-}
 
 
 const initalState = {
@@ -19,9 +14,8 @@ const initalState = {
     lastName: '',
     emailAddress: '',
     password: '',
-    userImage:'', 
-    following: following,
-    readLater: [],
+    userImage:'',
+    readLater: [], 
     userLoading: true   
 }
 
@@ -60,16 +54,20 @@ export const UserProvider = ({ children }) => {
         
                 } catch (error) {
                     console.error('Error setting user data:', error);
+                }   
+                
+                if(isAuth){
+                    console.log(`isAuth: ${isAuth}`)
                 }                
             }
+
+
 
         };
     
         setUserData();
         
-        if(isAuth){
-            console.log(`isAuth: ${isAuth}`)
-        }
+
 
     }, [isAuth, accessToken]);
     

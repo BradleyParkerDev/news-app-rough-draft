@@ -5,16 +5,12 @@ const setLocalStorageData = (dataType,data) =>{
         localStorage.setItem('user',userString)
         return
     }
-    if(dataType === 'news'){
-        const newsString = JSON.stringify(data)
-        localStorage.setItem('news',newsString)
+    if(dataType === 'preferences'){
+        const preferencesString = JSON.stringify(data)
+        localStorage.setItem('preferences',preferencesString)
         return
     }
-    if(dataType === 'weather'){
-        const weatherString = JSON.stringify(data)
-        localStorage.setItem('weather',weatherString)
-        return
-    }
+
 }
 
 export default setLocalStorageData;
