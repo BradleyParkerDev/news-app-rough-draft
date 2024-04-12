@@ -1,21 +1,18 @@
 import React, { useContext } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; // Assuming you will use useState and useEffect later
 import { NewsContext } from '../../context/NewsContext';
 import { UserContext } from '../../context/UserContext';
 
-const HomePage = (props) =>{
+const HomePage = (props) => {
 
     const { state: news } = useContext(NewsContext);
     const { state: user, dispatch: userDispatch, setUserData } = useContext(UserContext);
-    const { topHeadlines, categories, loadingNews } = news;
+    const { topHeadlines, query } = news;
+    const { business, entertainment, general, health, science, sports, technology } = news.categories;
 
-	console.log(news)
-    return (
-        <div>
-            <h1>Latest News</h1>
-            {loadingNews ? (
-                <p>Loading News...</p>
-            ) : (
+    const showTopHeadlines = () => {
+        return (
+            <div>
                 <ul>
                     {topHeadlines.articles.map((article, index) => (
                         <li key={index}>
@@ -23,10 +20,20 @@ const HomePage = (props) =>{
                         </li>
                     ))}
                 </ul>
+            </div>
+        );
+    };
+
+    return (
+        <div>
+            <h1>Top Headlines</h1>
+            {topHeadlines.loadingTopHeadlines ? (
+                <p>Loading Top Headlines...</p>
+            ) : (
+                showTopHeadlines()
             )}
         </div>
     );
 };
-
 
 export default HomePage;
