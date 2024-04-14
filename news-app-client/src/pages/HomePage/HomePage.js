@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'; // Assuming you will use useState a
 import { NewsContext } from '../../context/NewsContext';
 import { UserContext } from '../../context/UserContext';
 import GlimmerButton from '../../components/GlimmerButton/GlimmerButton';
-
+import { Button } from '../../components/ui/button';
 const HomePage = (props) => {
     const { state: news } = useContext(NewsContext);
     const { topHeadlines, categories } = news;
@@ -22,6 +22,8 @@ const HomePage = (props) => {
 
     return (
         <div>
+            <Button>code with zosh</Button>
+            <br/>
             <GlimmerButton/>
             <h1>Top Headlines</h1>
             {topHeadlines.loadingTopHeadlines ? (
